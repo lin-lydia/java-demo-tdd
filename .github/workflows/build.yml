@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
 
       - name: JDK 1.11 Install
         uses: actions/setup-java@v1
@@ -21,7 +21,7 @@ jobs:
           cp target/*.jar staging
 
       - name: Artifact Upload
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: Package
           path: staging
