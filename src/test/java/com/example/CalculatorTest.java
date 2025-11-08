@@ -9,6 +9,7 @@ import org.apache.http.StatusLine;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.junit.jupiter.api.Assertions;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -60,9 +61,9 @@ public class CalculatorTest {
         when(client.execute(any(HttpGet.class))).thenReturn(response);
        
 
-    //act
-    Calculator calculator = new Calculator(client);
-    var actual = calculator.getExchangeRate(Calculator.Currency.USD);
+        //act
+        Calculator calculator = new Calculator(client);
+        var actual = calculator.getExchangeRate(Calculator.Currency.USD);
 
         //assert
         double expected = 11486.5341;
@@ -253,6 +254,19 @@ public class CalculatorTest {
         //assert
         double expected = 19618.6556;
         assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testExceptionThrown() {
+        //arrange
+        //act
+        Calculator calculator = new Calculator(client);
+  
+        //assert
+        IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            calculator.convertBitcoins(Calculator.Currency.EUR, -1);
+        });
+        Assertions.assertEquals("Number of coins must not be less than zero", exception.getMessage());
     }
 
 }
